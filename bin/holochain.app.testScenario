@@ -1,12 +1,28 @@
+#!/bin/bash
+
+#set the HOLOCHAIN_SYSTEM_BIN variable
+. holochain.system.checkInstalled
+#set the HOLOCHAIN_APPNAME and HOLOCHAIN_APPDIR variables
+. holochain.app.findAppDir
+
+
 export dockerBaseRun=" -e LOCAL_USER_ID=`id -u $USER` "
 export LOCAL_USER_ID=`id -u $USER`
 
-docker build -f Dockerfile.chain.testing -t chain.testing .
+. $HOLOCHAIN_SYSTEM_BIN/app/createRuntime || exit 1
 
-cd Scripts/tests
+HOLOCHAIN_APP_DOCKERDIR=$HOLOCHAIN_APPDIR/runtime/docker
+mkdir -p $HOLOCHAIN_APP_DOCKERDIR > /dev/null
+
+#need to harlink the Dockerfile for docker security
+ln $HOLOCHAIN_SYSTEM_BIN/../docker/app.docker/Dockerfile.chain.testing $HOLOCHAIN_APP_DOCKERDIR/Dockerfile.chain.testing
+
+#build the image to use as the base for the bs instance and hc instances
+echo "docker build --no-cache -f $HOLOCHAIN_APP_DOCKERDIR/Dockerfile.chain.testing -t chain.testing $HOLOCHAIN_APPDIR"
+docker build --no-cache -f $HOLOCHAIN_APP_DOCKERDIR/Dockerfile.chain.testing -t chain.testing $HOLOCHAIN_APPDIR
 
 
-echo "--- Test 4 - serve tests roles"
-./test.scenario.role.test  $1 "all tests complete" 
-./test.hc.cluster.sync.test  hc.cluster.sync passed failed 5 "hc.cluster.sync 5 instances" && echo "--- passed" || echo "--- failed"
-echo
+$HOLOCHAIN_SYSTEM_BIN/app/testScenario.createClusterScripts $1
+
+#TODO COMMENT AND MAKE WORK
+#./test.hc.cluster.sync.test  hc.cluster.sync passed failed 5 "hc.cluster.sync 5 instances" && echo "--- passed" || echo "--- failed"

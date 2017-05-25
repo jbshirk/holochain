@@ -26,11 +26,11 @@ echo "HC: testScenario $scenarioName started `date`" | tee -a $HOLOCHAIN_APPDIR/
 ####docker stuff
 mkdir -p "$HOLOCHAIN_APPDIR/runtime/docker" > /dev/null
 #need to harlink the Dockerfile for docker security
-echo "ln $HOLOCHAIN_SYSTEM_BIN/../docker/app.docker/Dockerfile.chain.testing $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.chain.testing"
-ln $HOLOCHAIN_SYSTEM_BIN/../docker/app.docker/Dockerfile.chain.testing $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.chain.testing
+echo "ln $HOLOCHAIN_SYSTEM_BIN/../docker/app.docker/Dockerfile.BASE $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.BASE"
+ln $HOLOCHAIN_SYSTEM_BIN/../docker/app.docker/Dockerfile.BASE $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.BASE
 #build the image to use as the base for the bs instance and hc instances
-echo "docker build --no-cache -f $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.chain.testing -t chain.testing $HOLOCHAIN_APPDIR"
-docker build --no-cache -f $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.chain.testing -t chain.testing $HOLOCHAIN_APPDIR
+echo "docker build --no-cache -f $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.BASE -t chain.testing $HOLOCHAIN_APPDIR"
+docker build --no-cache -f $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile..BASE -t chain.testing $HOLOCHAIN_APPDIR
 
 
 #TODO COMMENT AND MAKE WORK

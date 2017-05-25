@@ -1,0 +1,10 @@
+holochain.version && echo "holochain is already installed" && exit 1 || echo "installing holochain bin"
+
+dirOfInstallScript="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo "  holochain bin directory found at: $dirOfInstallScript"
+
+echo "export PATH=$dirOfInstallScript:\$PATH && echo 'holochain.2134837348734' >> /dev/null" >> ~/.bashrc
+
+echo "run:"
+echo 
+echo "source ~/.bashrc"

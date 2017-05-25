@@ -2,11 +2,9 @@
 echo "HC: $0"
 
 testName=$1
-dockerComposeSystem=$2
-logFile=$3
+logFile=$2
 
 dockerComposeApp="$HOLOCHAIN_APPDIR/runtime/docker/docker-compose.runCluster.yml"
-ln $dockerComposeSystem $dockerComposeApp
 
 export HC_SCALE=`ls $HOLOCHAIN_APPDIR/runtime/cluster/hc -1 | wc -l`
 

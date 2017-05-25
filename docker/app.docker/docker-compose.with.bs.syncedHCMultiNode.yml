@@ -14,7 +14,7 @@ services:
   bs:
     build:
       context: .
-      dockerfile: Dockerfile.bs
+      dockerfile: Dockerfile.bsService
     ports:
       - "3142"
     environment:
@@ -27,7 +27,7 @@ services:
   hc:
     build:
       context: .
-      dockerfile: Dockerfile.serveInstance
+      dockerfile: Dockerfile.syncedHCMultiNode
     ports:
       - "3141"
       - "6283"
@@ -42,7 +42,7 @@ services:
   hc.post.up:
     build:
       context: .
-      dockerfile: Dockerfile.hc.post.up
+      dockerfile: Dockerfile.syncedHCMultiNode.releaseSyncService
     environment:
       - LOCAL_USER_ID
     volumes:

@@ -34,6 +34,23 @@ docker build --no-cache -f $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.chain.tes
 
 
 #TODO COMMENT AND MAKE WORK
-dockerComposeSystem="$HOLOCHAIN_SYSTEM_BIN/../docker/app.docker/docker-compose.with.bs.syncedHCMultiNode.yml"
+#CONSTANTS
+systemAppDockerDir="$HOLOCHAIN_SYSTEM_BIN/../docker/app.docker"
+appAppDockerDir="$HOLOCHAIN_APPDIR/runtime/docker"
+
+#configureThis
+dockerComposeSystem="$systemAppDockerDir/docker-compose.with.bs.syncedHCMultiNode.yml"
+#constants
+dockerComposeApp="$appAppDockerDir/docker-compose.runCluster.yml"
+ln $dockerComposeSystem $dockerComposeApp
+
+#these depend on what your dockerComposeSystem file requires
+ln "$systemAppDockerDir/Dockerfile.syncedHCMultiNode" "$appAppDockerDir/Dockerfile.syncedHCMultiNode"
+ln "$systemAppDockerDir/Dockerfile.seedService" "$appAppDockerDir/Dockerfile.seedService"
+ln "$systemAppDockerDir/Dockerfile.bsService" "$appAppDockerDir/Dockerfile.bsService"
+ln "$systemAppDockerDir/Dockerfile.syncedHCMultiNode.releaseSyncService" "$appAppDockerDir/Dockerfile.syncedHCMultiNode.releaseSyncService"
+
+
+
 echo "$HOLOCHAIN_SYSTEM_BIN/app/runCluster $scenarioName $dockerComposeSystem $logFile"
-$HOLOCHAIN_SYSTEM_BIN/app/runCluster $scenarioName $dockerComposeSystem $logFile
+$HOLOCHAIN_SYSTEM_BIN/app/runCluster $scenarioName $logFile

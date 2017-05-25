@@ -1,0 +1,15 @@
+#!/bin/bash
+
+FILE=".hc/config"
+if [ ! -d $FILE ]; then
+   
+  # check if we are in root dir, in which case, die
+  [ $PWD == "/" ] && echo "HC: this does not appear to be a holochain directory" && exit 1
+   
+  # check up a directory
+   cd ..
+   . holochain.findAppDir
+else
+  HOLOCHAIN_APPNAME=`echo .hc/config/readableName`
+  HOLOCHAIN_APPDIR=$PWD
+fi

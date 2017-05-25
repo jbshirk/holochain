@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "HC: $0"
 
 testScenarioName=$1
 

@@ -1,15 +1,20 @@
+#!/bin/bash
+echo "HC: $0"
+
 testName=$1
 dockerComposeSystem=$2
 logFile=$3
 
-$dockerComposeApp="$HOLOCHAIN_APPDIR/runtime/docker/docker-compose.runCluster.yml"
+dockerComposeApp="$HOLOCHAIN_APPDIR/runtime/docker/docker-compose.runCluster.yml"
 ln $dockerComposeSystem $dockerComposeApp
 
-export HC_SCALE=`ls ../../Scripts/cluster/hc -1 | wc -l`
+export HC_SCALE=`ls $HOLOCHAIN_APPDIR/runtime/cluster/hc -1 | wc -l`
 
 #take down network
+echo "docker-compose -f $dockerComposeApp down"
 docker-compose -f $dockerComposeApp down
 #rebuild all images
+echo "docker-compose -f $dockerComposeApp build --no-cache"
 docker-compose -f $dockerComposeApp build --no-cache
 #set scale
 #TODO deprecated - should be in docker-compose up --scale....

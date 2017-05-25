@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE=".hc/config"
+FILE=".hc/immutable"
 if [ ! -d $FILE ]; then
    
   # check if we are in root dir, in which case, die
@@ -10,6 +10,6 @@ if [ ! -d $FILE ]; then
    cd ..
    . holochain.findAppDir
 else
-  export HOLOCHAIN_APPNAME=`echo .hc/config/readableName`
+  export HOLOCHAIN_APPNAME=`cat .hc/immutable/readableName`
   export HOLOCHAIN_APPDIR=$PWD
 fi

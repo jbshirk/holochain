@@ -1,10 +1,22 @@
-holochain.version && echo "holochain is already installed" && exit 1 || echo "installing holochain bin"
+if grep -q "holochain.2134837348734" ~/.bashrc ; then
+  if holochain.version > /dev/null ; then
+    echo "HC: holochain already installed"
+  else
+    printf "HC: holochain is installed, but this shell is not linked. run:\n\nsource ~/.bashrc"
+  fi
+  
+  exit 1
+
+else
+  if holochain.version > /dev/null ; then
+    echo "HC: holochain has been uninstalled"
+    holochain.confirm.y "Would you like to reinstall? (n/Y)" || { "HC: terminated by user" && exit 1 ; }
+  else
+    :
+  fi
+fi
 
 dirOfInstallScript="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo "  holochain bin directory found at: $dirOfInstallScript"
+echo "HC: holochain bin directory found at: $dirOfInstallScript"
 
 echo "export PATH=$dirOfInstallScript:\$PATH && echo 'holochain.2134837348734' >> /dev/null" >> ~/.bashrc
-
-echo "run:"
-echo 
-echo "source ~/.bashrc"

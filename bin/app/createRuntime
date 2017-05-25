@@ -6,5 +6,7 @@ appRuntimeDir="$HOLOCHAIN_APPDIR/runtime"
 echo "mkdir -p $appRuntimeDir > /dev/null"
 mkdir -p $appRuntimeDir > /dev/null
 
+[ -d "$HOLOCHAIN_APPDIR/logs" ] || mkdir $HOLOCHAIN_APPDIR/logs > /dev/null
+
 # HOLOCHAIN_APP_RUNTIMEDIR=$appRuntimeDir
 # export HOLOCHAIN_APP_RUNTIMEDIR

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+scenarioName=$1
+
 #set the HOLOCHAIN_SYSTEM_BIN variable
 . holochain.system.checkInstalled
 #set the HOLOCHAIN_APPNAME and HOLOCHAIN_APPDIR variables
@@ -11,18 +13,25 @@ export LOCAL_USER_ID=`id -u $USER`
 
 . $HOLOCHAIN_SYSTEM_BIN/app/createRuntime || exit 1
 
-HOLOCHAIN_APP_DOCKERDIR=$HOLOCHAIN_APPDIR/runtime/docker
-mkdir -p $HOLOCHAIN_APP_DOCKERDIR > /dev/null
+#creates a single script for each role in the testScenario, which is run by the respective container
+$HOLOCHAIN_SYSTEM_BIN/app/testScenario.createClusterScripts $scenarioName
 
+#begin log for this session
+logFile=$HOLOCHAIN_APPDIR/logs/testScenario.$scenarioName.log
+printf "########################################################################\n########################################################################\n########################################################################\n"
+echo "HC: testScenario $scenarioName started `date`" | tee -a $HOLOCHAIN_APPDIR/logs/cluster.log
+
+
+####docker stuff
+mkdir -p "$HOLOCHAIN_APPDIR/runtime/docker" > /dev/null
 #need to harlink the Dockerfile for docker security
-ln $HOLOCHAIN_SYSTEM_BIN/../docker/app.docker/Dockerfile.chain.testing $HOLOCHAIN_APP_DOCKERDIR/Dockerfile.chain.testing
-
+ln $HOLOCHAIN_SYSTEM_BIN/../docker/app.docker/Dockerfile.chain.testing $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.chain.testing
 #build the image to use as the base for the bs instance and hc instances
-echo "docker build --no-cache -f $HOLOCHAIN_APP_DOCKERDIR/Dockerfile.chain.testing -t chain.testing $HOLOCHAIN_APPDIR"
-docker build --no-cache -f $HOLOCHAIN_APP_DOCKERDIR/Dockerfile.chain.testing -t chain.testing $HOLOCHAIN_APPDIR
+echo "docker build --no-cache -f $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.chain.testing -t chain.testing $HOLOCHAIN_APPDIR"
+docker build --no-cache -f $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.chain.testing -t chain.testing $HOLOCHAIN_APPDIR
 
-
-$HOLOCHAIN_SYSTEM_BIN/app/testScenario.createClusterScripts $1
 
 #TODO COMMENT AND MAKE WORK
-#./test.hc.cluster.sync.test  hc.cluster.sync passed failed 5 "hc.cluster.sync 5 instances" && echo "--- passed" || echo "--- failed"
+$dockerComposeSystem=$HOLOCHAIN_SYSTEM_BIN/../docker/app/docker-compose.multiNodeSync.yml
+$HOLOCHAIN_SYSTEM_BIN/app/runCluster $scenarioName $dockerComposeSystem $logFile
+./test.hc.cluster.sync.test  hc.cluster.sync passed failed 5 "hc.cluster.sync 5 instances" && echo "--- passed" || echo "--- failed"

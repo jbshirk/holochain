@@ -10,6 +10,6 @@ if [ ! -d $FILE ]; then
    cd ..
    . holochain.findAppDir
 else
-  HOLOCHAIN_APPNAME=`echo .hc/config/readableName`
-  HOLOCHAIN_APPDIR=$PWD
+  export HOLOCHAIN_APPNAME=`echo .hc/config/readableName`
+  export HOLOCHAIN_APPDIR=$PWD
 fi

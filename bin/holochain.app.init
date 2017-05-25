@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #check if we are already in a dir/subDir of a holochain app repo
-{ holochain.findAppDir > /dev/null && echo "HC: holochain already initialised in $HOLOCHAIN_APPDIR" && exit 1 ; } || :
+{ holochain.app.findAppDir > /dev/null && echo "HC: holochain already initialised in $HOLOCHAIN_APPDIR" && exit 1 ; } || :
 
 
 printf "\n\nHC: initialise holochain in $PWD\n"
@@ -9,7 +9,7 @@ printf "\n\nHC: initialise holochain in $PWD\n"
 DIR="."
 # look for empty dir 
 if [ "$(ls -A $DIR)" ]; then
-     printf "HC: ls\n\n" && ls && printf "\n" && { holochain.confirm "HC: Directory is not empty. Are you sure this is the right directory? (y/N): " || { echo "HC: terminated by user" && exit 1 ; } ; } && :
+     printf "HC: ls\n\n" && ls && printf "\n" && { holochain.tools.confirm "HC: Directory is not empty. Are you sure this is the right directory? (y/N): " || { echo "HC: terminated by user" && exit 1 ; } ; } && :
 fi
 
 read -r -p "HC: Enter holochain readableName: " readableName
@@ -18,7 +18,7 @@ printf "\nHC: All information entered. Check details: \n"
 printf "\nHC:      readable name: \"$readableName\""
 
 echo
-holochain.confirm.y "Is this correct? (Y/n)" || { echo "terminated by user" && exit 1 ; } && :
+holochain.tools.confirm.y "Is this correct? (Y/n)" || { echo "terminated by user" && exit 1 ; } && :
 
 mkdir .hc
 cd .hc

@@ -26,6 +26,6 @@ mkdir immutable
 cd immutable
 echo $readableName > readableName
 cd ../..
-chmod 550 .hc/immutable
+#chmod 550 .hc/immutable
 
 echo "HC: holochain app initialised"

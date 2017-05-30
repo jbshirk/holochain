@@ -4,30 +4,30 @@ services:
   service.chain:
     build:
       context: .
-      dockerfile: Dockerfile.seedService
+      dockerfile: runtime/docker/Dockerfile.seedService
     environment:
       - LOCAL_USER_ID
     volumes:
       - seed:/chain.seeded
-      - ../Scripts:/Scripts
+      - ./runtime/Scripts:/Scripts
     command: /Scripts/syncedMultiNode.containers.scripts/pre.up
   bs:
     build:
       context: .
-      dockerfile: Dockerfile.bsService
+      dockerfile: runtime/docker/Dockerfile.bsService
     ports:
       - "3142"
     environment:
       - LOCAL_USER_ID
     volumes:
       - seed:/chain.seeded
-      - ../Scripts:/Scripts
+      - ./runtime/Scripts:/Scripts
     depends_on: [service.chain]
     command: /bin/sh -c /Scripts/syncedMultiNode.containers.scripts/bs.start
   hc:
     build:
       context: .
-      dockerfile: Dockerfile.syncedHCMultiNode
+      dockerfile: runtime/docker/Dockerfile.syncedHCMultiNode
     ports:
       - "3141"
       - "6283"
@@ -35,19 +35,19 @@ services:
       - LOCAL_USER_ID
     volumes:
       - seed:/chain.seeded
-      - ../Scripts:/Scripts
+      - ./runtime/Scripts:/Scripts
     command: /Scripts/syncedMultiNode.containers.scripts/hc.sync
     #command: /bin/sh
     depends_on: [bs]
   hc.post.up:
     build:
       context: .
-      dockerfile: Dockerfile.syncedHCMultiNode.releaseSyncService
+      dockerfile: runtime/docker/Dockerfile.syncedHCMultiNode.releaseSyncService
     environment:
       - LOCAL_USER_ID
     volumes:
       - seed:/chain.seeded
-      - ../Scripts:/Scripts
+      - ./runtime/Scripts:/Scripts
     command: /Scripts/syncedMultiNode.containers.scripts/post.up
     depends_on: [hc]
 

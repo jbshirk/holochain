@@ -8,19 +8,18 @@ hackyCheatSync="/chain.seeded/devchain"
 mkdir /chain.seeded/devchain
 touch $hackyCheatSync/.cluster.lock
 
-echo "hc init $HOSTNAME"
+set -x
+
 hc init $HOSTNAME
 echo
 
-echo "hc clone /chain.source devchain"
+ls /chain.source -la
 hc clone /chain.source devchain
 echo 
 
-echo "hc test devchain"
 hc test devchain
 echo
 
-echo "hc seed devchain"
 hc seed devchain
 echo
 
@@ -35,27 +34,24 @@ clusterDir="/home/user/.holochain/devchain/cluster/$seedID"
 mkdir /home/user/.holochain/devchain/cluster
 mkdir /home/user/.holochain/devchain/cluster/$seedID
 
-echo "touch $clusterDir/.cluster.lock"
 touch $clusterDir/.cluster.lock
 echo
 
-echo "ls -la $clusterDir"
 ls -la $clusterDir
 echo
 
 
 
 
-echo "ls /home/user/.holochain"
 ls /home/user/.holochain
 echo
 
-echo "cp /home/user/.holochain/devchain /chain.seeded -r"
 cp /home/user/.holochain/devchain /chain.seeded -r
 echo 
 
-echo "ls -la /chain.seeded/devchain"
 ls -la /chain.seeded/devchain
 echo 
 
 rm $hackyCheatSync/.cluster.lock
+
+set +x

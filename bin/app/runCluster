@@ -24,3 +24,6 @@ docker-compose -f $dockerComposeApp up | tee -a $logFile
 
 #TODO MAKE TEST PASS / FAIL AUTOMATICALLY PASS THROUGH TO BUILD SYSTEM
 #[ -f $HOLOCHAIN_APPDIR/runtime/tests/passed ] || { echo "HC: ---- FAILED" && exit 1 ; }
+
+rm $HOLOCHAIN_APPDIR/__tmp__.holochain.2134837348734.docker-compose.runCluster.yml
+rm -r $HOLOCHAIN_APPDIR/runtime

@@ -5,6 +5,7 @@ appRuntimeDir="$HOLOCHAIN_APPDIR/runtime"
 
 echo "mkdir -p $appRuntimeDir > /dev/null"
 mkdir -p $appRuntimeDir > /dev/null
+mkdir $appRuntimeDir/chain.seeded
 
 [ -d "$HOLOCHAIN_APPDIR/logs" ] || mkdir $HOLOCHAIN_APPDIR/logs > /dev/null
 

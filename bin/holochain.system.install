@@ -20,5 +20,6 @@ dirOfInstallScript="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "HC: holochain bin directory found at: $dirOfInstallScript"
 
 echo "export PATH=$dirOfInstallScript:\$PATH && echo 'holochain.2134837348734' >> /dev/null" >> ~/.bashrc
+echo ". $dirOfInstallScript/holochain.system.bashCompletion && echo 'holochain.2134837348734' >> /dev/null" >> ~/.bashrc
 
 printf "HC: holochain installed. To add to this shell run:\n\n  $ source ~/.bashrc\n\n"

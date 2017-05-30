@@ -8,9 +8,9 @@ services:
     environment:
       - LOCAL_USER_ID
     volumes:
-      - seed:/chain.seeded
+      - ./runtime/chain.seeded:/chain.seeded
       - ./runtime/Scripts:/Scripts
-      - /runtime:/runtime
+      - ./runtime:/runtime
     command: /Scripts/syncedMultiNode.containers.scripts/pre.up
   bs:
     build:
@@ -21,9 +21,9 @@ services:
     environment:
       - LOCAL_USER_ID
     volumes:
-      - seed:/chain.seeded
+      - ./runtime/chain.seeded:/chain.seeded
       - ./runtime/Scripts:/Scripts
-      - /runtime:/runtime
+      - ./runtime:/runtime
     depends_on: [service.chain]
     command: /bin/sh -c /Scripts/syncedMultiNode.containers.scripts/bs.start
   hc:
@@ -36,9 +36,9 @@ services:
     environment:
       - LOCAL_USER_ID
     volumes:
-      - seed:/chain.seeded
+      - ./runtime/chain.seeded:/chain.seeded
       - ./runtime/Scripts:/Scripts
-      - /runtime:/runtime
+      - ./runtime:/runtime
     command: /Scripts/syncedMultiNode.containers.scripts/hc.sync
     #command: /bin/sh
     depends_on: [bs]
@@ -49,11 +49,11 @@ services:
     environment:
       - LOCAL_USER_ID
     volumes:
-      - seed:/chain.seeded
+      - ./runtime/chain.seeded:/chain.seeded
       - ./runtime/Scripts:/Scripts
-      - /runtime:/runtime
+      - ./runtime:/runtime
     command: /Scripts/syncedMultiNode.containers.scripts/post.up
     depends_on: [hc]
 
-volumes:
-  seed:
+# volumes:
+#   seed:

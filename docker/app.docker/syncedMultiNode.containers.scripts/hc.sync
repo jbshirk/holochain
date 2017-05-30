@@ -13,7 +13,7 @@ echo "My host name: $HOSTNAME"
 
 mkdir $clusterDir/hc
 echo "#!/bin/sh" >> $clusterDir/hc/$HOSTNAME 
-echo "defaultBehaviour. No test role found. " >> $clusterDir/hc/$HOSTNAME 
+echo "echo defaultBehaviour. No test role found. " >> $clusterDir/hc/$HOSTNAME 
 echo "hc serve devchain" >> $clusterDir/hc/$HOSTNAME 
 chmod +x $clusterDir/hc/$HOSTNAME 
 

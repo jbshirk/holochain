@@ -10,6 +10,7 @@ services:
     volumes:
       - seed:/chain.seeded
       - ./runtime/Scripts:/Scripts
+      - /runtime:/runtime
     command: /Scripts/syncedMultiNode.containers.scripts/pre.up
   bs:
     build:
@@ -22,6 +23,7 @@ services:
     volumes:
       - seed:/chain.seeded
       - ./runtime/Scripts:/Scripts
+      - /runtime:/runtime
     depends_on: [service.chain]
     command: /bin/sh -c /Scripts/syncedMultiNode.containers.scripts/bs.start
   hc:
@@ -36,6 +38,7 @@ services:
     volumes:
       - seed:/chain.seeded
       - ./runtime/Scripts:/Scripts
+      - /runtime:/runtime
     command: /Scripts/syncedMultiNode.containers.scripts/hc.sync
     #command: /bin/sh
     depends_on: [bs]
@@ -48,6 +51,7 @@ services:
     volumes:
       - seed:/chain.seeded
       - ./runtime/Scripts:/Scripts
+      - /runtime:/runtime
     command: /Scripts/syncedMultiNode.containers.scripts/post.up
     depends_on: [hc]
 

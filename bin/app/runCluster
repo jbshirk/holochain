@@ -8,9 +8,10 @@ dockerComposeApp="$HOLOCHAIN_APPDIR/__tmp__.holochain.2134837348734.docker-compo
 
 export HC_SCALE=`ls $HOLOCHAIN_APPDIR/runtime/cluster/hc -1 | wc -l`
 
+set -x
+
 #take down network
-echo "docker-compose -f $dockerComposeApp down"
-docker-compose -f $dockerComposeApp down
+docker-compose -f $dockerComposeApp down 
 #rebuild all images
 echo "docker-compose -f $dockerComposeApp build --no-cache"
 docker-compose -f $dockerComposeApp build --no-cache
@@ -18,12 +19,11 @@ docker-compose -f $dockerComposeApp build --no-cache
 #TODO deprecated - should be in docker-compose up --scale....
 echo "docker-compose -f $dockerComposeApp scale hc=$HC_SCALE"
 docker-compose -f $dockerComposeApp scale "hc=$HC_SCALE"
+
 #bring network up
 echo "docker-compose -f $dockerComposeApp up | tee ./$testName.output"
 docker-compose -f $dockerComposeApp up | tee -a $logFile
 
+set +x
 #TODO MAKE TEST PASS / FAIL AUTOMATICALLY PASS THROUGH TO BUILD SYSTEM
-#[ -f $HOLOCHAIN_APPDIR/runtime/tests/passed ] || { echo "HC: ---- FAILED" && exit 1 ; }
-
-rm $HOLOCHAIN_APPDIR/__tmp__.holochain.2134837348734.docker-compose.runCluster.yml
-rm -r $HOLOCHAIN_APPDIR/runtime
+#[ -f $HOLOCHAIN_APPDIR/runtime/tests/passed ] || { echo "HC: ---- FAILED" && exit 1 ; }| tee -a $logFile

@@ -3,7 +3,3 @@ FROM metacurrency/holochain
 ADD . /chain.source
 WORKDIR /chain.source
 RUN chown root:holochain /chain.source -R
-#RUN mkdir /chain.seeded
-#RUN chgrp holochain /chain.seeded
-#RUN chmod 777 /chain.seeded
-

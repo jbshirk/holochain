@@ -9,8 +9,8 @@ services:
       - LOCAL_USER_ID
     volumes:
       - seed:/chain.seeded
-      - ./Scripts:/Scripts
-    command: /Scripts/cluster/pre.up
+      - ../Scripts:/Scripts
+    command: /Scripts/syncedMultiNode.containers.scripts/pre.up
   bs:
     build:
       context: .
@@ -21,9 +21,9 @@ services:
       - LOCAL_USER_ID
     volumes:
       - seed:/chain.seeded
-      - ./Scripts:/Scripts
+      - ../Scripts:/Scripts
     depends_on: [service.chain]
-    command: /bin/sh -c /Scripts/cluster/bs.start
+    command: /bin/sh -c /Scripts/syncedMultiNode.containers.scripts/bs.start
   hc:
     build:
       context: .
@@ -35,10 +35,10 @@ services:
       - LOCAL_USER_ID
     volumes:
       - seed:/chain.seeded
-      - ./Scripts:/Scripts
-    command: /Scripts/cluster/hc.sync
+      - ../Scripts:/Scripts
+    command: /Scripts/syncedMultiNode.containers.scripts/hc.sync
     #command: /bin/sh
-    depends_on: [service.chain]
+    depends_on: [bs]
   hc.post.up:
     build:
       context: .
@@ -47,8 +47,8 @@ services:
       - LOCAL_USER_ID
     volumes:
       - seed:/chain.seeded
-      - ./Scripts:/Scripts
-    command: /Scripts/cluster/post.up
+      - ../Scripts:/Scripts
+    command: /Scripts/syncedMultiNode.containers.scripts/post.up
     depends_on: [hc]
 
 volumes:

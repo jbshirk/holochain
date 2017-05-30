@@ -25,7 +25,7 @@ echo "HC: testScenario $scenarioName started `date`" | tee -a $HOLOCHAIN_APPDIR/
 
 ####docker stuff
 mkdir -p "$HOLOCHAIN_APPDIR/runtime/docker" > /dev/null
-#need to harlink the Dockerfile for docker security
+#need to hardlink the Dockerfile for docker security
 echo "ln $HOLOCHAIN_SYSTEM_BIN/../docker/app.docker/Dockerfile.BASE $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.BASE"
 ln $HOLOCHAIN_SYSTEM_BIN/../docker/app.docker/Dockerfile.BASE $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile.BASE
 #build the image to use as the base for the bs instance and hc instances
@@ -37,6 +37,8 @@ docker build --no-cache -f $HOLOCHAIN_APPDIR/runtime/docker/Dockerfile..BASE -t 
 #CONSTANTS
 systemAppDockerDir="$HOLOCHAIN_SYSTEM_BIN/../docker/app.docker"
 appAppDockerDir="$HOLOCHAIN_APPDIR/runtime/docker"
+
+appScriptDir="$HOLOCHAIN_APPDIR/runtime/Scripts"
 
 #configureThis
 dockerComposeSystem="$systemAppDockerDir/docker-compose.with.bs.syncedHCMultiNode.yml"
@@ -50,7 +52,7 @@ ln "$systemAppDockerDir/Dockerfile.seedService" "$appAppDockerDir/Dockerfile.see
 ln "$systemAppDockerDir/Dockerfile.bsService" "$appAppDockerDir/Dockerfile.bsService"
 ln "$systemAppDockerDir/Dockerfile.syncedHCMultiNode.releaseSyncService" "$appAppDockerDir/Dockerfile.syncedHCMultiNode.releaseSyncService"
 
-
+ln -s $HOLOCHAIN_SYSTEM_BIN/../docker/app.docker $HOLOCHAIN_APPDIR/runtime/Scripts
 
 echo "$HOLOCHAIN_SYSTEM_BIN/app/runCluster $scenarioName $dockerComposeSystem $logFile"
 $HOLOCHAIN_SYSTEM_BIN/app/runCluster $scenarioName $logFile

@@ -12,7 +12,7 @@ ls $clusterDir/hc
 
 counter=1
 for container in `ls $clusterDir/hc`; do
-	cp /Scripts/cluster/hc/$counter.* $clusterDir/hc/$container
+	cp /runtime/cluster/hc/$counter.* $clusterDir/hc/$container
 	counter=$(( counter+1 ))
 done
 
